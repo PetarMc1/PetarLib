@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "petarlib",
+  "version": "${version}",
+
+  "name": "PetarLib",
+  "description": "a",
+  "authors": [],
+  "contact": {},
+
+  "license": "MIT",
+  "icon": "assets/petarlib/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.petarmc.petarlib.client.PetarlibClient"],
+    "main": ["com.petarmc.petarlib.Petarlib"]
+  },
+
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
