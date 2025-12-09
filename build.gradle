@@ -83,3 +83,12 @@ publishing {
     }
 
 
+tasks.javadoc {
+    destinationDir = file("$rootDir/javadoc")  // Output to project root/javadoc
+    source = sourceSets.main.allJava
+    options.encoding = 'UTF-8'
+    options.charSet = 'UTF-8'
+    options.addBooleanOption('private', true)  // include private members
+    options.windowTitle = 'PetarLib Javadocs'
+    options.docTitle = 'PetarLib Documentation'
+}

@@ -3,14 +3,29 @@ package com.petarmc.lib.log;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * PerformanceLog implementation that logs messages to the console and optionally to a file.
+ * Designed to track debug, info, warning, and error messages with optional thread and logger name information.
+ *
+ */
 public class PLog implements PLogger {
 
     private final String name;
 
+    /**
+     * Creates a new PerformanceLog instance with the given name.
+     *
+     * @param name the name of the logger, typically representing the class or module
+     */
     public PLog(String name) {
         this.name = name;
     }
 
+    /**
+     * Returns the name of this logger.
+     *
+     * @return the logger name
+     */
     @Override
     public String getName() {
         return name;
@@ -23,18 +38,13 @@ public class PLog implements PLogger {
             sb.append(LogConfig.globalPrefix).append(" ");
         }
 
-        // Log level
         sb.append("[").append(level).append("] ");
 
-        // Thread info
         if (LogConfig.includeThread) {
             sb.append("[Thread: ").append(Thread.currentThread().getName()).append("] ");
         }
 
-        // Class/Logger name
         sb.append("[").append(name).append("] ");
-
-        // Actual message
         sb.append(msg);
 
         return sb.toString();
@@ -51,6 +61,11 @@ public class PLog implements PLogger {
         return level.ordinal() >= LogConfig.globalLevel.ordinal();
     }
 
+    /**
+     * Logs a debug-level message.
+     *
+     * @param msg the message to log
+     */
     @Override
     public void debug(String msg) {
         if (!allowed(LogLevel.DEBUG)) return;
@@ -59,6 +74,12 @@ public class PLog implements PLogger {
         writeToFile(line);
     }
 
+    /**
+     * Logs an info-level message.
+     * Ignored if the global log level is higher than INFO.
+     *
+     * @param msg the message to log
+     */
     @Override
     public void info(String msg) {
         if (!allowed(LogLevel.INFO)) return;
@@ -67,6 +88,11 @@ public class PLog implements PLogger {
         writeToFile(line);
     }
 
+    /**
+     * Logs a warning-level message.
+     *
+     * @param msg the message to log
+     */
     @Override
     public void warn(String msg) {
         if (!allowed(LogLevel.WARN)) return;
@@ -75,6 +101,11 @@ public class PLog implements PLogger {
         writeToFile(line);
     }
 
+    /**
+     * Logs an error-level message.
+     *
+     * @param msg the message to log
+     */
     @Override
     public void error(String msg) {
         if (!allowed(LogLevel.ERROR)) return;
@@ -83,6 +114,13 @@ public class PLog implements PLogger {
         writeToFile(line);
     }
 
+    /**
+     * Logs an error-level message along with a Throwable.
+     * Prints the exception's stack trace and message.
+     *
+     * @param msg the message to log
+     * @param t   the Throwable to include in the log
+     */
     public void error(String msg, Throwable t) {
         if (!allowed(LogLevel.ERROR)) return;
         String line = format("ERROR", msg + " :: " + t.getMessage());
