@@ -64,7 +64,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = 'com.petarmc'
             artifactId = 'lib'
-            version = project.findProperty("repoVer")
+            version = project.findProperty("mod_version")
 
             from components.java
         }
