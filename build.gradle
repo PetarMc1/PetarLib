@@ -64,7 +64,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId = 'com.petarmc'
             artifactId = 'lib'
-            version = project.findProperty("mod_version")
+            version = project.findProperty("repository_version")
 
             from components.java
         }
@@ -84,11 +84,80 @@ publishing {
 
 
 tasks.javadoc {
-    destinationDir = file("$rootDir/javadoc")  // Output to project root/javadoc
+    destinationDir = file("$rootDir/javadoc")
     source = sourceSets.main.allJava
     options.encoding = 'UTF-8'
     options.charSet = 'UTF-8'
-    options.addBooleanOption('private', true)  // include private members
+    options.addBooleanOption('private', true)
     options.windowTitle = 'PetarLib Javadocs'
     options.docTitle = 'PetarLib Documentation'
+}
+
+task buildAllVers {
+    description = 'Build library for all versions defined in props directory and current gradle.properties'
+    group = 'build'
+
+    doLast {
+        def gradleScript = System.getProperty("os.name").toLowerCase().contains("win") ? "gradlew.bat" : "./gradlew"
+        def builtVersions = []
+        def outputDir = file('build/libs-versioned')
+
+        if (!outputDir.exists()) {
+            outputDir.mkdirs()
+        }
+
+        println("Building with default gradle.properties (Fabric ${project.fabric_version})...")
+        def defaultMinecraftVersion = project.minecraft_version
+        def proc = "${gradleScript} build".execute()
+        proc.waitFor()
+        builtVersions.add("Default (Minecraft ${defaultMinecraftVersion})")
+
+        FileTree defaultJars = fileTree(dir: 'build/libs', include: '*.jar', exclude: '*-sources.jar')
+        defaultJars.each { File jar ->
+            def newName = jar.name.replaceAll(/\.jar$/, "-mc${defaultMinecraftVersion}.jar")
+            def destFile = new File(outputDir, newName)
+            jar.renameTo(destFile)
+            println("  → Copied to: build/libs-versioned/${newName}")
+        }
+
+        FileTree propsFiles = fileTree(dir: 'props', include: '*.properties')
+
+        propsFiles.each { File propFile ->
+            println("\n=== Building with ${propFile.name} ===")
+
+            Properties props = new Properties()
+            propFile.withInputStream { stream ->
+                props.load(stream)
+            }
+
+            def mcVersion = props.getProperty('minecraft_version')
+            def fabricVersion = props.getProperty('fabric_version')
+
+            def gradleCmd = "${gradleScript} build " +
+                "-Pminecraft_version=" + mcVersion + " " +
+                "-Pyarn_mappings=" + props.getProperty('yarn_mappings') + " " +
+                "-Ploader_version=" + props.getProperty('loader_version') + " " +
+                "-Pfabric_version=" + fabricVersion
+
+            def proc2 = gradleCmd.execute()
+            proc2.waitFor()
+
+            builtVersions.add("Minecraft ${mcVersion} (Fabric ${fabricVersion})")
+            
+            FileTree builtJars = fileTree(dir: 'build/libs', include: '*.jar', exclude: '*-sources.jar')
+            builtJars.each { File jar ->
+                def newName = jar.name.replaceAll(/\.jar$/, "-mc${mcVersion}.jar")
+                def destFile = new File(outputDir, newName)
+                jar.renameTo(destFile)
+                println("  → Copied to: build/libs-versioned/${newName}")
+            }
+        }
+
+        println("\n=== Build Summary ===")
+        println("Successfully built the following versions:")
+        builtVersions.each { version ->
+            println("  ✓ ${version}")
+        }
+        println("\nAll versioned artifacts are stored in: build/libs-versioned/")
+    }
 }
