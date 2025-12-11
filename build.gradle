@@ -61,27 +61,26 @@ jar {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        create('mavenJava', MavenPublication) {
             groupId = 'com.petarmc'
-            artifactId = 'lib'
-            version = project.findProperty("repository_version")
+            artifactId =  'lib'
+            version = project.findProperty('repository_version')
 
             from components.java
         }
     }
 
-        repositories {
-            maven {
-                name = 'remote'
-                url = uri('https://maven.petarmc.com/releases/')
-                credentials {
-                    username = project.findProperty("repoUsername") ?: ""
-                    password = project.findProperty("repoPassword") ?: ""
-                }
+    repositories {
+        maven {
+            name = 'remote'
+            url = uri('https://maven.petarmc.com/releases/')
+            credentials {
+                username = project.findProperty('repoUsername') ?: ""
+                password = project.findProperty('repoPassword') ?: ""
             }
         }
     }
-
+}
 
 tasks.javadoc {
     destinationDir = file("$rootDir/javadoc")
