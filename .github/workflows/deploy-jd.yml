@@ -2,8 +2,9 @@ name: Build & Deploy Javadocs
 
 on:
   push:
-    branches:
-      - master
+    branches: [ 'v*' ]
+  release:
+    types: [created]
 
 jobs:
   javadoc:
@@ -18,7 +19,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 22
-          
+
       - name: Make Gradle wrapper executable
         run: chmod +x gradlew
 
