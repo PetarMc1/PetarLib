@@ -4,8 +4,8 @@
   "version": "${version}",
 
   "name": "PetarLib",
-  "description": "a",
-  "authors": [],
+  "description": "A library mod for Petar_mc's mods.",
+  "authors": ["Petar_mc"],
   "contact": {},
 
   "license": "MIT",
