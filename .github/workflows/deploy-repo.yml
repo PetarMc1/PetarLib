@@ -1,8 +1,6 @@
 name: Maven Publish
 
 on:
-  push:
-    branches: [ 'v*' ]
   release:
     types: [created]
 

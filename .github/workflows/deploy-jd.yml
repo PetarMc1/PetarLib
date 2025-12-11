@@ -1,8 +1,6 @@
 name: Build & Deploy Javadocs
 
 on:
-  push:
-    branches: [ 'v*' ]
   release:
     types: [created]
 
