@@ -21,29 +21,28 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x gradlew
 
-
       - name: Build Javadocs
         run: ./gradlew javadoc --no-daemon
+
+      - name: Prepare Pages path (/petarlib)
+        run: |
+          # Create a publish folder that contains the javadocs under /petarlib
+          mkdir -p javadoc-publish/petarlib
+          cp -a javadoc/. javadoc-publish/petarlib/
+          rm -rf javadoc
+          mv javadoc-publish javadoc
+          ls -la javadoc
 
       - name: Set up Node.js (required for Cloudflare Wrangler)
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      - name: Install Wrangler locally (no global npm permissions needed)
-        run: npm install --no-audit --no-fund --no-save wrangler@2
-
-      - name: Verify Node / NPM / Wrangler
-        run: |
-          node --version
-          npm --version
-          npx --version || true
-          npx wrangler --version || ./node_modules/.bin/wrangler --version || true
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1.5.0
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          projectName: petarlib-jd
-          directory: ./javadoc
+          projectName: petarlib
+          directory: ./javadoc-publish
