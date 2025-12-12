@@ -8,7 +8,7 @@ public class Petarlib {
     private static final PLogger log = new PLog("Petarlib");
 
     public static void init() {
-        log.info("PetarLib v1.0.0 initializing");
+        log.info("PetarLib initializing");
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             log.info("PetarLib shutdown hook running...");
