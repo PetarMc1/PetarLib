@@ -29,10 +29,8 @@ jobs:
         env:
           REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
           REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
-        run: |
-          echo "Publishing with repository_version=$REPOSITORY_VERSION"
-
-          ./gradlew publish -PrepoUsername="$REPO_USERNAME" -PrepoPassword="$REPO_PASSWORD" -Prepository_version="$REPOSITORY_VERSION"
+        run: 
+          ./gradlew publish -PrepoUsername="$REPO_USERNAME" -PrepoPassword="$REPO_PASSWORD"
         shell: bash
 
       - name: List build artifacts
