@@ -7,7 +7,7 @@ on:
 jobs:
   publish:
     name: Publish to custom Maven repository
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     permissions:
       contents: read
