@@ -9,11 +9,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout source repository
+        uses: actions/checkout@v4
 
       - name: Set up JDK 22
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 22
@@ -24,25 +24,25 @@ jobs:
       - name: Build Javadocs
         run: ./gradlew javadoc --no-daemon
 
-      - name: Prepare Pages path (/petarlib)
+      - name: Prepare deploy structure (/petarlib)
         run: |
-          # Create a publish folder that contains the javadocs under /petarlib
-          mkdir -p javadoc-publish/petarlib
-          cp -a javadoc/. javadoc-publish/petarlib/
-          rm -rf javadoc
-          mv javadoc-publish javadoc
-          ls -la javadoc
+          mkdir -p deploy/petarlib
+          cp -a javadoc/. deploy/petarlib/
+          ls -la deploy
 
-      - name: Set up Node.js (required for Cloudflare Wrangler)
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
+      - name: Deploy to PetarMc1/javadocs
+        env:
+          GH_TOKEN: ${{ secrets.JD_DEPLOY_TOKEN }}
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
 
+          git clone https://PetarMc1:$GH_TOKEN@github.com/PetarMc1/javadocs.git deploy-repo
+          cd deploy-repo
 
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1.5.0
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          projectName: petarlib-jd
-          directory: ./javadoc
+          rm -rf petarlib
+          cp -a ../deploy/petarlib ./petarlib
+
+          git add petarlib
+          git commit -m "Update petarlib Javadocs (release $GITHUB_REF_NAME)" || echo "No changes"
+          git push
