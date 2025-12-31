@@ -125,7 +125,6 @@ public class PLog implements PLogger {
         if (!allowed(LogLevel.ERROR)) return;
         String line = format("ERROR", msg + " :: " + t.getMessage());
         System.err.println(line);
-        t.printStackTrace();
         writeToFile(line + "\n" + t.toString());
     }
 }
