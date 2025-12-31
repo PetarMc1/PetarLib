@@ -40,9 +40,8 @@ jobs:
           git clone https://PetarMc1:$GH_TOKEN@github.com/PetarMc1/javadocs.git deploy-repo
           cd deploy-repo
 
-          rm -rf petarlib
-          cp -a ../deploy/petarlib ./petarlib
+          cp -a ../deploy/petarlib ./petarlib/$GITHUB_REF_NAME
 
-          git add petarlib
+          git add petarlib/$GITHUB_REF_NAME
           git commit -m "Update petarlib Javadocs (release $GITHUB_REF_NAME)" || echo "No changes"
           git push

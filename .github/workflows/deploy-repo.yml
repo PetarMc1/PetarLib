@@ -30,7 +30,7 @@ jobs:
           REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
           REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
         run: 
-          ./gradlew publishMavenJavaPublicationToPetarPrivateRepository -PrepoUsername="$REPO_USERNAME" -PrepoPassword="$REPO_PASSWORD"
+          ./gradlew publishMavenJavaPublicationToPetarReleasesRepository -PrepoUsername="$REPO_USERNAME" -PrepoPassword="$REPO_PASSWORD"
         shell: bash
 
       - name: List build artifacts
