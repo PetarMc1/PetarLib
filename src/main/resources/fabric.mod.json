@@ -13,7 +13,7 @@
 
   "environment": "client",
   "entrypoints": {
-    "main": ["com.petarmc.petarlib.Petarlib"]
+    "client": ["com.petarmc.lib.Petarlib"]
   },
 
 
