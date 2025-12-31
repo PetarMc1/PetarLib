@@ -8,7 +8,7 @@ public class LogConfig {
 
     /**
      * The global log level.
-     * Messages below this level will be ignored.
+     * Messages below this level will be ignored if {@link #enforceLevel} is true.
      * Default is {@link LogLevel#INFO}.
      */
     public static LogLevel globalLevel = LogLevel.INFO;
@@ -42,4 +42,11 @@ public class LogConfig {
      * Default is false.
      */
     public static boolean includeThread = false;
+
+    /**
+     * If true, log messages will be filtered based on the global log level.
+     * If false, all messages will be logged regardless of level.
+     * Default is true.
+     */
+    public static boolean enforceLevel = true;
 }

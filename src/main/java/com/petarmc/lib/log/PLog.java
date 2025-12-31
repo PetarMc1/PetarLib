@@ -58,7 +58,7 @@ public class PLog implements PLogger {
     }
 
     private boolean allowed(LogLevel level) {
-        return level.ordinal() >= LogConfig.globalLevel.ordinal();
+        return !LogConfig.enforceLevel || level.ordinal() >= LogConfig.globalLevel.ordinal();
     }
 
     /**
@@ -76,7 +76,7 @@ public class PLog implements PLogger {
 
     /**
      * Logs an info-level message.
-     * Ignored if the global log level is higher than INFO.
+     * Ignored if {@link LogConfig#enforceLevel} is true and the global log level is higher than INFO.
      *
      * @param msg the message to log
      */
