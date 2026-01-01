@@ -2,9 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GRADLE_OPTS = "-Xmx2G"
-        REPO_USERNAME = credentials('maven-username')
-        REPO_PASSWORD = credentials('maven-password')
+        REPO_CREDENTIALS = credentials('maven-credential')
         GH_TOKEN = credentials('gh-javadoc-token')
     }
 
@@ -23,7 +21,20 @@ pipeline {
         stage('Build All Versions') {
             steps {
                 sh 'chmod +x gradlew'
-                sh './gradlew buildAllVers --no-daemon'
+                sh "./gradlew buildAllVers --no-daemon -PbuildNumber=${env.BUILD_NUMBER}"
+            }
+        }
+
+        stage('List Build Artifacts') {
+            steps {
+                echo "Artifacts in build/libs-versioned:"
+                sh 'ls -R build/libs-versioned'
+            }
+        }
+
+        stage('Archive Build Artifacts') {
+            steps {
+                archiveArtifacts artifacts: 'build/libs-versioned/**/*.jar', fingerprint: true
             }
         }
 
@@ -35,12 +46,15 @@ pipeline {
             }
             steps {
                 script {
+                    // Parse release tag from GitHub webhook payload
                     def payload = readJSON text: env.GITHUB_EVENT_PAYLOAD
                     def releaseTag = payload.release.tag_name
                     echo "Release detected: ${releaseTag}"
 
+                    // build jd
                     sh './gradlew javadoc --no-daemon'
 
+                    // deploy javadocs to gh rpeo
                     sh """
                     mkdir -p deploy/petarlib
                     cp -a javadoc/. deploy/petarlib/
@@ -57,10 +71,12 @@ pipeline {
                     git push
                     """
 
+                    // Publish to Maven repository
                     sh """
                     ./gradlew publishMavenJavaPublicationToPetarReleasesRepository \
-                        -PrepoUsername="${REPO_USERNAME}" \
-                        -PrepoPassword="${REPO_PASSWORD}"
+                        -PrepoUsername="${REPO_CREDENTIALS_USR}" \
+                        -PrepoPassword="${REPO_CREDENTIALS_PSW}"
+                        --no-daemon
                     """
                 }
             }
@@ -69,7 +85,9 @@ pipeline {
 
     post {
         always {
-            cleanWs()
+            node {
+                cleanWs()
+            }
         }
     }
 }

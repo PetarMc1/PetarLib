@@ -108,52 +108,57 @@ task buildAllVers {
         def gradleScript = System.getProperty("os.name").toLowerCase().contains("win") ? "gradlew.bat" : "./gradlew"
         def builtVersions = []
         def outputDir = file('build/libs-versioned')
+        if (!outputDir.exists()) outputDir.mkdirs()
 
-        if (!outputDir.exists()) {
-            outputDir.mkdirs()
+        def hasBuildNumber = project.hasProperty('buildNumber')
+        def buildNumber = hasBuildNumber ? project.buildNumber : "local"
+        def modVersion = project.version
+        def modName = project.name
+
+        // Helper to generate filename
+        def makeFileName = { mcVersion ->
+            if (hasBuildNumber) {
+                return "${modName}-mc${mcVersion}-${buildNumber}.jar"
+            } else {
+                return "${modName}-mc${mcVersion}-v${modVersion}-build${buildNumber}.jar"
+            }
         }
 
-        println("Building with default gradle.properties (Fabric ${project.fabric_version})...")
+        // --- Build default gradle.properties ---
+        println("Building default gradle.properties (Fabric ${project.fabric_version})...")
         def defaultMinecraftVersion = project.minecraft_version
         def proc = "${gradleScript} build".execute()
         proc.waitFor()
         builtVersions.add("Default (Minecraft ${defaultMinecraftVersion})")
 
-        FileTree defaultJars = fileTree(dir: 'build/libs', include: '*.jar', exclude: '*-sources.jar')
-        defaultJars.each { File jar ->
-            def newName = jar.name.replaceAll(/\.jar$/, "-mc${defaultMinecraftVersion}.jar")
+        fileTree(dir: 'build/libs', include: '*.jar', exclude: '*-sources.jar').each { jar ->
+            def newName = makeFileName(defaultMinecraftVersion)
             def destFile = new File(outputDir, newName)
             jar.renameTo(destFile)
             println("  → Copied to: build/libs-versioned/${newName}")
         }
 
-        FileTree propsFiles = fileTree(dir: 'props', include: '*.properties')
-
-        propsFiles.each { File propFile ->
+        // --- Build all props/*.properties versions ---
+        fileTree(dir: 'props', include: '*.properties').each { propFile ->
             println("\n=== Building with ${propFile.name} ===")
-
             Properties props = new Properties()
-            propFile.withInputStream { stream ->
-                props.load(stream)
-            }
+            propFile.withInputStream { stream -> props.load(stream) }
 
             def mcVersion = props.getProperty('minecraft_version')
             def fabricVersion = props.getProperty('fabric_version')
 
             def gradleCmd = "${gradleScript} build " +
-                "-Pminecraft_version=" + mcVersion + " " +
-                "-Pyarn_mappings=" + props.getProperty('yarn_mappings') + " " +
-                "-Ploader_version=" + props.getProperty('loader_version') + " " +
-                "-Pfabric_version=" + fabricVersion
+                    "-Pminecraft_version=${mcVersion} " +
+                    "-Pyarn_mappings=${props.getProperty('yarn_mappings')} " +
+                    "-Ploader_version=${props.getProperty('loader_version')} " +
+                    "-Pfabric_version=${fabricVersion}"
 
             def proc2 = gradleCmd.execute()
             proc2.waitFor()
-
             builtVersions.add("Minecraft ${mcVersion} (Fabric ${fabricVersion})")
-            
-            FileTree builtJars = fileTree(dir: 'build/libs', include: '*.jar', exclude: '*-sources.jar')
-            builtJars.each { File jar ->
-                def newName = jar.name.replaceAll(/\.jar$/, "-mc${mcVersion}.jar")
+
+            fileTree(dir: 'build/libs', include: '*.jar', exclude: '*-sources.jar').each { jar ->
+                def newName = makeFileName(mcVersion)
                 def destFile = new File(outputDir, newName)
                 jar.renameTo(destFile)
                 println("  → Copied to: build/libs-versioned/${newName}")
@@ -162,9 +167,7 @@ task buildAllVers {
 
         println("\n=== Build Summary ===")
         println("Successfully built the following versions:")
-        builtVersions.each { version ->
-            println("  ✓ ${version}")
-        }
+        builtVersions.each { println("  ✓ $it") }
         println("\nAll versioned artifacts are stored in: build/libs-versioned/")
     }
 }
