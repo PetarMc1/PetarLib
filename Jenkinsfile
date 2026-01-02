@@ -41,20 +41,16 @@ pipeline {
         stage('Release Tasks') {
             when {
                 expression {
-                    return env.GITHUB_EVENT_NAME == 'release'
+                    return env.GIT_BRANCH?.startsWith('refs/tags/')
                 }
             }
             steps {
                 script {
-                    // Parse release tag from GitHub webhook payload
-                    def payload = readJSON text: env.GITHUB_EVENT_PAYLOAD
-                    def releaseTag = payload.release.tag_name
+                    def releaseTag = env.GIT_BRANCH.replace('refs/tags/', '')
                     echo "Release detected: ${releaseTag}"
 
-                    // build jd
                     sh './gradlew javadoc --no-daemon'
 
-                    // deploy javadocs to gh rpeo
                     sh """
                     mkdir -p deploy/petarlib
                     cp -a javadoc/. deploy/petarlib/
@@ -71,11 +67,10 @@ pipeline {
                     git push
                     """
 
-                    // Publish to Maven repository
                     sh """
                     ./gradlew publishMavenJavaPublicationToPetarReleasesRepository \
                         -PrepoUsername="${REPO_CREDENTIALS_USR}" \
-                        -PrepoPassword="${REPO_CREDENTIALS_PSW}"
+                        -PrepoPassword="${REPO_CREDENTIALS_PSW}" \
                         --no-daemon
                     """
                 }

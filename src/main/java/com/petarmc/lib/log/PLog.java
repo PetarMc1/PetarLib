@@ -2,6 +2,8 @@ package com.petarmc.lib.log;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * PerformanceLog implementation that logs messages to the console and optionally to a file.
@@ -125,6 +127,12 @@ public class PLog implements PLogger {
         if (!allowed(LogLevel.ERROR)) return;
         String line = format("ERROR", msg + " :: " + t.getMessage());
         System.err.println(line);
-        writeToFile(line + "\n" + t.toString());
+        t.printStackTrace(System.err);
+        try {
+            try (StringWriter sw = new StringWriter(); PrintWriter pw = new PrintWriter(sw)) {
+                t.printStackTrace(pw);
+                writeToFile(line + "\n" + sw.toString());
+            }
+        } catch (IOException ignored) {}
     }
 }
