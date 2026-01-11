@@ -36,11 +36,11 @@ public class PLog implements PLogger {
     private String format(String level, String msg) {
         StringBuilder sb = new StringBuilder();
 
-        if (LogConfig.globalPrefix != null && !LogConfig.globalPrefix.isEmpty()) {
-            sb.append(LogConfig.globalPrefix).append(" ");
-        }
-
         sb.append("[").append(level).append("] ");
+
+        if (LogConfig.globalPrefix != null && !LogConfig.globalPrefix.isEmpty()) {
+            sb.append(LogConfig.globalPrefix).append("");
+        }
 
         if (LogConfig.includeThread) {
             sb.append("[Thread: ").append(Thread.currentThread().getName()).append("] ");
