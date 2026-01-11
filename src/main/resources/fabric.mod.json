@@ -6,11 +6,12 @@
   "name": "PetarLib",
   "description": "A library mod for Petar_mc's mods.",
   "authors": ["Petar_mc"],
-  "contact": {},
-
+  "contact": {
+    "homepage": "https://petarmc.com/projects/PetarLib",
+    "issues": "https://github.com/PetarMc1/PetarLib/issues"
+  },
   "license": "MIT",
   "icon": "assets/petarlib/icon.png",
-
   "environment": "client",
   "entrypoints": {
     "client": ["com.petarmc.lib.Petarlib"]
