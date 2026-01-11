@@ -43,7 +43,7 @@ public class PLog implements PLogger {
         }
 
         if (LogConfig.includeThread) {
-            sb.append("[Thread: ").append(Thread.currentThread().getName()).append("] ");
+            sb.append(" [").append(Thread.currentThread().getName()).append("] ");
         }
 
         sb.append(msg);
