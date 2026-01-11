@@ -33,7 +33,7 @@ jobs:
       - name: Prepare deploy structure (/petarlib)
         run: |
           mkdir -p deploy/petarlib
-          cp -a /javadoc/. deploy/petarlib/
+          cp -a javadoc/. deploy/petarlib/
           ls -la deploy
 
       - name: Deploy to PetarMc1/javadocs
