@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        REPO_CREDENTIALS = credentials('maven-credential')
-        GH_TOKEN = credentials('gh-javadoc-token')
-    }
-
     options {
         disableConcurrentBuilds()
         timestamps()
@@ -21,7 +16,14 @@ pipeline {
         stage('Build All Versions') {
             steps {
                 sh 'chmod +x gradlew'
-                sh "./gradlew buildAllVers --no-daemon -PbuildNumber=${env.BUILD_NUMBER}"
+                script {
+                    def buildCmd = "./gradlew buildAllVers --no-daemon"
+                    if (env.BUILD_NUMBER?.trim()) {
+                        buildCmd += " -PbuildNumber=${env.BUILD_NUMBER}"
+                    }
+                    echo "Running: ${buildCmd}"
+                    sh buildCmd
+                }
             }
         }
 
@@ -38,49 +40,13 @@ pipeline {
             }
         }
 
-        stage('Release Tasks') {
-            when {
-                expression {
-                    return env.GIT_BRANCH?.startsWith('refs/tags/')
-                }
-            }
-            steps {
-                script {
-                    def releaseTag = env.GIT_BRANCH.replace('refs/tags/', '')
-                    echo "Release detected: ${releaseTag}"
-
-                    sh './gradlew javadoc --no-daemon'
-
-                    sh """
-                    mkdir -p deploy/petarlib
-                    cp -a javadoc/. deploy/petarlib/
-
-                    git config --global user.name "jenkins"
-                    git config --global user.email "jenkins@ci"
-
-                    git clone https://${GH_TOKEN}@github.com/PetarMc1/javadocs.git deploy-repo
-                    cd deploy-repo
-                    mkdir -p petarlib/${releaseTag}
-                    cp -a ../deploy/petarlib/* petarlib/${releaseTag}/
-                    git add petarlib/${releaseTag}
-                    git commit -m "Update petarlib Javadocs (release ${releaseTag})" || echo "No changes"
-                    git push
-                    """
-
-                    sh """
-                    ./gradlew publishMavenJavaPublicationToPetarReleasesRepository \
-                        -PrepoUsername="${REPO_CREDENTIALS_USR}" \
-                        -PrepoPassword="${REPO_CREDENTIALS_PSW}" \
-                        --no-daemon
-                    """
-                }
-            }
-        }
     }
 
     post {
         always {
-            cleanWs()
+            node {
+                cleanWs()
+            }
         }
     }
 }

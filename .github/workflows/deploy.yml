@@ -1,33 +1,39 @@
-name: Build & Deploy Javadocs
+name: Build & Deploy
 
 on:
   release:
     types: [created]
 
 jobs:
-  javadoc:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout source repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 22
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 22
+          java-version: '21'
 
       - name: Make Gradle wrapper executable
         run: chmod +x gradlew
 
-      - name: Build Javadocs
-        run: ./gradlew javadoc --no-daemon
+      - name: Build project and Javadocs
+        run: ./gradlew build javadoc --no-daemon
+
+      - name: Publish to Maven
+        env:
+          REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
+          REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
+        run: ./gradlew publishMavenJavaPublicationToPetarReleasesRepository --no-daemon
 
       - name: Prepare deploy structure (/petarlib)
         run: |
           mkdir -p deploy/petarlib
-          cp -a javadoc/. deploy/petarlib/
+          cp -a build/docs/javadoc/. deploy/petarlib/
           ls -la deploy
 
       - name: Deploy to PetarMc1/javadocs
