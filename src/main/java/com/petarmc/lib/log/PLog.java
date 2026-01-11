@@ -39,11 +39,11 @@ public class PLog implements PLogger {
         sb.append("[").append(level).append("] ");
 
         if (LogConfig.globalPrefix != null && !LogConfig.globalPrefix.isEmpty()) {
-            sb.append(LogConfig.globalPrefix).append("");
+            sb.append(LogConfig.globalPrefix).append(" ");
         }
 
         if (LogConfig.includeThread) {
-            sb.append(" [").append(Thread.currentThread().getName()).append("] ");
+            sb.append("[").append(Thread.currentThread().getName()).append("] ");
         }
 
         sb.append(msg);
