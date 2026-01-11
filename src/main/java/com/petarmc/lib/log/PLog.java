@@ -7,7 +7,7 @@ import java.io.StringWriter;
 
 /**
  * PerformanceLog implementation that logs messages to the console and optionally to a file.
- * Designed to track debug, info, warning, and error messages with optional thread and logger name information.
+ * Designed to track debug, info, warning, and error messages with optional thread information.
  *
  */
 public class PLog implements PLogger {
@@ -46,7 +46,6 @@ public class PLog implements PLogger {
             sb.append("[Thread: ").append(Thread.currentThread().getName()).append("] ");
         }
 
-        sb.append("[").append(name).append("] ");
         sb.append(msg);
 
         return sb.toString();
