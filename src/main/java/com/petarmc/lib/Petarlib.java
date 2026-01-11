@@ -12,11 +12,10 @@ public class Petarlib implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        LogConfig.globalPrefix = "PetarLib";
-        log.info("PetarLib initializing");
+        LogConfig.globalPrefix = "[PetarLib]";
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            log.info("PetarLib shutdown hook running...");
+            log.info("PetarLib shutting down...");
         }));
 
         log.info("PetarLib initialized");
