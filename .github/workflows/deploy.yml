@@ -28,7 +28,7 @@ jobs:
         env:
           REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
           REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
-        run: ./gradlew publishMavenJavaPublicationToPetarReleasesRepository --no-daemon
+        run: ./gradlew publishMavenJavaPublicationToPetarReleasesRepository -PrepoUsername="$REPO_USERNAME" -PrepoPassword="$REPO_PASSWORD" --no-daemon
 
       - name: Prepare deploy structure (/petarlib)
         run: |
