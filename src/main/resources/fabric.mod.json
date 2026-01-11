@@ -16,10 +16,25 @@
     "client": ["com.petarmc.lib.Petarlib"]
   },
 
-
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}"
+  },
+
+  "suggests": {
+    "modmenu": "*"
+  },
+
+  "custom": {
+    "modmenu": {
+      "badges": ["library"],
+      "links": {
+        "modmenu.website": "https://petarmc.com/projects/PetarLib",
+        "modmenu.issues": "https://github.com/PetarMc1/PetarLib/issues",
+        "modmenu.source": "https://github.com/PetarMc1/PetarLib"
+      },
+      "update_checker": true
+    }
   }
 }
