@@ -11,7 +11,7 @@ import java.util.concurrent.*;
  */
 public class TaskScheduler {
 
-    private static final PLogger log = new PLog("TaskScheduler");
+    private static final PLogger log = new PLog("TaskScheduler", "[PetarLib]");
     private final ScheduledExecutorService scheduler;
 
     /**

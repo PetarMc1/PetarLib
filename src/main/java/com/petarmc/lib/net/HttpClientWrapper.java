@@ -15,7 +15,7 @@ import java.util.concurrent.*;
  */
 public class HttpClientWrapper {
 
-    private static final PLogger log = new PLog("HttpClientWrapper");
+    private static final PLogger log = new PLog("HttpClientWrapper", "[PetarLib]");
 
     private final HttpClient client;
     private final int maxRetries;
