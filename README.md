@@ -77,6 +77,28 @@ To build for multiple Minecraft versions:
 
 This will generate versioned JARs in `build/libs-versioned/`.
 
+## Running tests
+
+Unit tests are configured with JUnit 5 (Jupiter).
+
+- Run the full test suite:
+```bash
+.\gradlew.bat test
+```
+
+- Run a single test class or method (example):
+```bash
+.\gradlew.bat --tests com.petarmc.lib.chat.ChatPatternMatcherTest test
+```
+
+Test reports are generated after a test run at:
+
+- HTML report: `build/reports/tests/test/index.html`
+- Raw results: `build/test-results/test/`
+
+Notes:
+- The project already includes the JUnit 5 dependency in `build.gradle`. If you encounter issues running tests, ensure your Gradle cache is healthy and dependencies resolve (`./gradlew --refresh-dependencies`).
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -84,4 +106,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```

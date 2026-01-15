@@ -12,6 +12,7 @@ base {
 
 
 repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -21,6 +22,10 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.0'
 }
 
 processResources {
@@ -98,6 +103,11 @@ tasks.javadoc {
     options.addBooleanOption('private', true)
     options.windowTitle = 'PetarLib Javadocs'
     options.docTitle = 'PetarLib Documentation'
+}
+
+// Configure tests to use JUnit Platform
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
 }
 
 task buildAllVers {
