@@ -13,6 +13,7 @@ import java.io.StringWriter;
 public class PLog implements PLogger {
 
     private final String name;
+    private final String prefix;
 
     /**
      * Creates a new PerformanceLog instance with the given name.
@@ -21,6 +22,7 @@ public class PLog implements PLogger {
      */
     public PLog(String name) {
         this.name = name;
+        this.prefix = LogConfig.globalPrefix; // capture at creation so each mod can set its own
     }
 
     /**
@@ -38,8 +40,8 @@ public class PLog implements PLogger {
 
         sb.append("[").append(level).append("] ");
 
-        if (LogConfig.globalPrefix != null && !LogConfig.globalPrefix.isEmpty()) {
-            sb.append(LogConfig.globalPrefix).append(" ");
+        if (prefix != null && !prefix.isEmpty()) {
+            sb.append(prefix).append(" ");
         }
 
         if (LogConfig.includeThread) {

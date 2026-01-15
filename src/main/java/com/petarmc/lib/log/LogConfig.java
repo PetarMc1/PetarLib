@@ -26,7 +26,9 @@ public class LogConfig {
     public static String logFilePath = "petarlib.log";
 
     /**
-     * A prefix to add to every log message, e.g., "[MyMod]".
+     * Default prefix applied to newly created loggers, e.g., "[MyMod]".
+     * Captured at logger construction time; changing this later does not
+     * retroactively update existing logger instances.
      * Default is an empty string.
      */
     public static String globalPrefix = "";
