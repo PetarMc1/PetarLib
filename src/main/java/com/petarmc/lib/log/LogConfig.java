@@ -26,20 +26,6 @@ public class LogConfig {
     public static String logFilePath = "petarlib.log";
 
     /**
-     * Default prefix applied to newly created loggers, e.g., "[MyMod]".
-     * Captured at logger construction time; changing this later does not
-     * retroactively update existing logger instances.
-     * Default is an empty string.
-     */
-    public static String globalPrefix = "";
-
-    /**
-     * If true, timestamps will be included in log messages.
-     * Default is true.
-     */
-    public static boolean includeTimestamp = true;
-
-    /**
      * If true, the current thread name will be included in log messages.
      * Default is false.
      */

@@ -16,13 +16,15 @@ public class PLog implements PLogger {
     private final String prefix;
 
     /**
-     * Creates a new PerformanceLog instance with the given name.
+     * Creates a new PerformanceLog instance with the given name and an explicit prefix.
+     * Per-logger prefixes are required; there is no global prefix.
      *
-     * @param name the name of the logger, typically representing the class or module
+     * @param name   the name of the logger
+     * @param prefix the prefix to apply to this logger's messages (e.g. "[MyMod]")
      */
-    public PLog(String name) {
+    public PLog(String name, String prefix) {
         this.name = name;
-        this.prefix = LogConfig.globalPrefix; // capture at creation so each mod can set its own
+        this.prefix = prefix == null ? "" : prefix;
     }
 
     /**

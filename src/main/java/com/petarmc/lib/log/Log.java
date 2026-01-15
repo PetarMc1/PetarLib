@@ -18,32 +18,30 @@ public class Log {
     }
 
     /**
-     * Returns a logger instance for the specified class.
-     * If a logger has been injected via {@link #inject}, it returns the injected logger.
-     * Otherwise, it returns a new {@link PLog} named after the class.
+     * Returns a logger instance for the specified class with a  prefix.
      *
-     * @param clazz the class for which the logger is requested
+     * @param clazz  the class for which the logger is requested
+     * @param prefix the prefix to apply to this logger's messages
      * @return a logger instance
      */
-    public static PLogger get(Class<?> clazz) {
+    public static PLogger get(Class<?> clazz, String prefix) {
         if (injected != null)
             return injected;
 
-        return new PLog(clazz.getSimpleName());
+        return new PLog(clazz.getSimpleName(), prefix);
     }
 
     /**
-     * Returns a logger instance with the specified name.
-     * If a logger has been injected via {@link #inject}, it returns the injected logger.
-     * Otherwise, it returns a new {@link PLog} with the given name.
+     * Returns a logger instance with the specified name and prefix.
      *
-     * @param name the name of the logger
+     * @param name   the name of the logger
+     * @param prefix the prefix to apply to this logger's messages
      * @return a logger instance
      */
-    public static PLogger get(String name) {
+    public static PLogger get(String name, String prefix) {
         if (injected != null)
             return injected;
 
-        return new PLog(name);
+        return new PLog(name, prefix);
     }
 }

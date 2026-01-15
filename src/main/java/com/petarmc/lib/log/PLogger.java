@@ -15,7 +15,6 @@ public interface PLogger {
 
     /**
      * Logs a debug-level message.
-     * Mainly used by the dev/devs.
      *
      * @param msg the message to log
      */
@@ -23,7 +22,6 @@ public interface PLogger {
 
     /**
      * Logs an info-level msg.
-     * Used for general info messages.
      *
      * @param msg the message to log
      */
@@ -31,7 +29,6 @@ public interface PLogger {
 
     /**
      * Logs a warning-level message.
-     * Indicates a potential issue.
      *
      * @param msg the message to log
      */
