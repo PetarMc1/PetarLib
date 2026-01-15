@@ -1,44 +1,53 @@
 package com.petarmc.lib.notification;
 
-import com.petarmc.lib.log.LogConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 
 /**
  * Utility class for showing in-game notifications to the player.
  * Only works on the client side.
+ *
+ * This class no longer relies on a global log prefix. Callers must supply a prefix
+ * when showing notifications (e.g. "[MyMod]").
  */
 public class NotificationManager {
+
+    private static void showChatMessage(String msg) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client != null && client.player != null) {
+            client.player.sendMessage(Text.of(msg), false);
+        }
+    }
 
     /**
      * Shows an error notification in chat.
      *
-     * @param message the message to display
+     * @param prefix the prefix to show (e.g. "[MyMod]") - may be empty
      */
-    public static void showError(String message) {
-        String prefix = (LogConfig.globalPrefix != null && !LogConfig.globalPrefix.isEmpty()) ? LogConfig.globalPrefix.replaceAll("^\\[|\\]$", "") : "";
-        showChatMessage("§e[" + prefix + "] §c" + message);
+    public static void showError(String message, String prefix) {
+        String safePrefix = (prefix == null) ? "" : prefix.replaceAll("^\\[|\\]$", "");
+        showChatMessage("§e[" + safePrefix + "] §c" + message);
     }
 
     /**
      * Shows an info notification in chat.
      *
-     * @param message the message to display
+     * @param prefix the prefix to show (e.g. "[MyMod]") - can be empty
      */
-    public static void showInfo(String message) {
-        String prefix = (LogConfig.globalPrefix != null && !LogConfig.globalPrefix.isEmpty()) ? LogConfig.globalPrefix.replaceAll("^\\[|\\]$", "") : "";
-        showChatMessage("§e[" + prefix + "] §f" + message);
+    public static void showInfo(String message, String prefix) {
+        String safePrefix = (prefix == null) ? "" : prefix.replaceAll("^\\[|\\]$", "");
+        showChatMessage("§e[" + safePrefix + "] §f" + message);
     }
 
     /**
      * Shows a custom notification in chat.
      *
-     * @param message the message to display
+     * @param message   the message to show
+     * @param colorCode the color code prefix like "§a"
+     * @param prefix    the prefix to show (e.g. "[MyMod]") - may be empty
      */
-    public static void showChatMessage(String message) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client != null && client.inGameHud != null) {
-            client.inGameHud.getChatHud().addMessage(Text.of(message));
-        }
+    public static void showCustom(String message, String colorCode, String prefix) {
+        String safePrefix = (prefix == null) ? "" : prefix.replaceAll("^\\[|\\]$", "");
+        showChatMessage(colorCode + "[" + safePrefix + "] " + message);
     }
 }
