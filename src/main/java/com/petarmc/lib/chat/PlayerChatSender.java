@@ -1,7 +1,7 @@
 package com.petarmc.lib.chat;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 
 /**
  * Utility class for sending chat messages from the client to the server.
@@ -25,17 +25,17 @@ public final class PlayerChatSender {
         if (msg.isEmpty()) return false;
         if (msg.length() > MAX_MESSAGE_LENGTH) msg = msg.substring(0, MAX_MESSAGE_LENGTH);
 
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         if (client == null) return false;
 
-        final ClientPlayNetworkHandler handler = client.getNetworkHandler();
+        final ClientPacketListener handler = client.getConnection();
         if (handler == null) return false;
 
         try {
             final String toSend = msg;
             client.execute(() -> {
                 try {
-                    handler.sendChatMessage(toSend);
+                    handler.sendChat(toSend);
                 } catch (Throwable t) {
                     t.printStackTrace();
                 }

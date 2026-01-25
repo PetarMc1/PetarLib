@@ -1,7 +1,7 @@
 package com.petarmc.lib.notification;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 
 /**
  * Utility class for showing in-game notifications to the player.
@@ -13,9 +13,10 @@ import net.minecraft.text.Text;
 public class NotificationManager {
 
     private static void showChatMessage(String msg) {
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         if (client != null && client.player != null) {
-            client.player.sendMessage(Text.of(msg), false);
+
+            client.player.displayClientMessage(Component.nullToEmpty(msg), false);
         }
     }
 
