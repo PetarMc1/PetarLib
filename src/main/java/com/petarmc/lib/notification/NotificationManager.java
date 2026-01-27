@@ -19,7 +19,7 @@ public class NotificationManager {
     }
 
     /**
-     * Shows an error notification in chat.
+     * Shows an error notification in the action bar.
      *
      * @param message the error message to show
      * @param prefix the prefix to show (e.g. "[MyMod]") - may be empty
@@ -30,7 +30,7 @@ public class NotificationManager {
     }
 
     /**
-     * Shows an info notification in chat.
+     * Shows an info notification in the action bar.
      *
      * @param message the message to show
      * @param prefix the prefix to show (e.g. "[MyMod]") - can be empty
@@ -41,7 +41,7 @@ public class NotificationManager {
     }
 
     /**
-     * Shows a custom notification in chat.
+     * Shows a custom notification in the action bar.
      *
      * @param message the message to show (supports color codes like "§a")
      */
