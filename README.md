@@ -1,7 +1,6 @@
 # PetarLib
 
-A utility library, providing essential tools for chat handling, logging, networking, and task scheduling.
-Its used in my mods like [the Fish Tracker mod](https://github.com/PetarMc1/change)
+A utility library, providing essential tools. Its used in my mods like [the Fish Tracker mod](https://github.com/PetarMc1/change)
 
 ## Features
 
@@ -11,6 +10,7 @@ PetarLib includes several modules to simplify mod development:
 - **Log Module**: Flexible logging system with configurable levels and outputs
 - **Net Module**: HTTP client wrapper for network operations
 - **Task Module**: Task scheduling and management utilities
+- **Notifications Module**: In-game notification system using the action bar
 
 ## Usage
 
@@ -19,7 +19,7 @@ Add the repo:
 ```xml
 <repository>
   <id>petarmc-releases</id>
-  <name>Reposilite Repository</name>
+  <name>Maven Repository</name>
   <url>https://maven.petarmc.com/releases</url>
 </repository>
 ```
@@ -29,7 +29,7 @@ Add dependency:
 <dependency>
   <groupId>com.petarmc</groupId>
   <artifactId>lib</artifactId>
-  <version>x.x.x</version>
+  <version>2.x.x</version>
 </dependency>
 ```
 
@@ -44,7 +44,7 @@ maven {
 ```
 Add dependency:
 ```kotlin
-implementation("com.petarmc:lib:1.0.0")
+implementation("com.petarmc:lib:2.x.x")
 ```
 
 #### Groovy
@@ -58,7 +58,7 @@ maven {
 
 Add dependency:
 ```groovy
-implementation "com.petarmc:lib:1.0.0"
+implementation "com.petarmc:lib:2.x.x"
 ```
 
 ## Building
