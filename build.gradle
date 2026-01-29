@@ -96,15 +96,12 @@ publishing {
 tasks.javadoc {
     destinationDir = file("$rootDir/javadoc")
     source = sourceSets.main.allJava.matching {
-        exclude 'com/petarmc/lib/**'
         exclude 'com/petarmc/lib/Petarlib.java'
     }
     options.encoding = 'UTF-8'
     options.charSet = 'UTF-8'
-    options.addBooleanOption('private', true)
     options.windowTitle = 'PetarLib Javadocs'
     options.docTitle = 'PetarLib Documentation'
-    options.addStringOption('exclude', 'com.petarmc.lib')
 }
 
 // Configure tests to use JUnit Platform
