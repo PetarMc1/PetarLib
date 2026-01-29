@@ -3,6 +3,8 @@ package com.petarmc.lib.notification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
+import java.sql.Struct;
+
 /**
  * Utility class for showing in-game notifications to the player through the action bar.
  * Only works on the client side.
@@ -16,6 +18,12 @@ public class NotificationManager {
         Minecraft client = Minecraft.getInstance();
         assert client.player != null;
         client.player.displayClientMessage(Component.nullToEmpty(msg), true);
+    }
+
+    private static void showNotificationInChat(String msg) {
+        Minecraft client = Minecraft.getInstance();
+        assert client.player != null;
+        client.player.displayClientMessage(Component.nullToEmpty(msg), false);
     }
 
     /**
@@ -47,5 +55,36 @@ public class NotificationManager {
      */
     public static void showCustomNotification(String message) {
         showNotification(message);
+    }
+
+    /**
+     * Shows an info notification in chat.
+     *
+     * @param message the message to show in chat
+     * @param prefix the prefix to add before the message (can be empty)
+     */
+    public static void showInfoInChat(String message, String prefix) {
+        String safePrefix = (prefix == null) ? "" : prefix.replaceAll("^\\[|\\]$", "");
+        showNotificationInChat("§e[" + safePrefix + "] §f" + message);
+    }
+
+    /**
+     * Shows an error notification in chat.
+     *
+     * @param message the error message to show in chat
+     * @param prefix the prefix to add before the message (can be empty)
+     */
+    public static void showErrorInChat(String message, String prefix){
+        String safePrefix = (prefix == null) ? "" : prefix.replaceAll("^\\[|\\]$", "");
+        showNotificationInChat("§e[" + safePrefix + "] §c" + message);
+    }
+
+    /**
+     * Shows a custom notification in chat
+     *
+     * @param message the message to show in chat (supports color codes)
+     */
+    public static void showCustomChatNotif(String message){
+        showNotificationInChat(message);
     }
 }
