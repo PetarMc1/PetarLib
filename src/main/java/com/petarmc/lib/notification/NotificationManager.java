@@ -3,7 +3,6 @@ package com.petarmc.lib.notification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
-import java.sql.Struct;
 
 /**
  * Utility class for showing in-game notifications to the player through the action bar.
