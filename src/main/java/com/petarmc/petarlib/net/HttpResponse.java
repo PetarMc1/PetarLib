@@ -1,4 +1,4 @@
-package com.petarmc.lib.net;
+package com.petarmc.petarlib.net;
 
 import java.util.Collections;
 import java.util.List;

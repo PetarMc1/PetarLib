@@ -1,4 +1,4 @@
-package com.petarmc.lib.log;
+package com.petarmc.petarlib.log;
 
 /**
  * Interface for a simple logger with multiple log levels.

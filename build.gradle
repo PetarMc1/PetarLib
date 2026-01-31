@@ -65,8 +65,8 @@ jar {
 publishing {
     publications {
         create('mavenJava', MavenPublication) {
-            groupId = 'com.petarmc'
-            artifactId =  'lib'
+            groupId = project.maven_group
+            artifactId =  'petarlib-fabric'
             version = project.findProperty('mod_version')
 
             from components.java

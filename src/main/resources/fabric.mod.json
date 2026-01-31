@@ -14,7 +14,9 @@
   "icon": "assets/petarlib/icon.png",
   "environment": "client",
   "entrypoints": {
-    "client": ["com.petarmc.lib.Petarlib"]
+    "client": [
+      "com.petarmc.petarlib.Petarlib"
+    ]
   },
 
   "depends": {

@@ -1,4 +1,4 @@
-package com.petarmc.lib.log;
+package com.petarmc.petarlib.log;
 
 import java.io.FileWriter;
 import java.io.IOException;

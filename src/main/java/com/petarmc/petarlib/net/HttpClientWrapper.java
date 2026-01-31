@@ -1,7 +1,7 @@
-package com.petarmc.lib.net;
+package com.petarmc.petarlib.net;
 
-import com.petarmc.lib.log.PLog;
-import com.petarmc.lib.log.PLogger;
+import com.petarmc.petarlib.log.PLog;
+import com.petarmc.petarlib.log.PLogger;
 
 import java.net.URI;
 import java.net.http.HttpClient;

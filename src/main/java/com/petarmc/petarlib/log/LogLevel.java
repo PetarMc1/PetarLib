@@ -1,4 +1,4 @@
-package com.petarmc.lib.log;
+package com.petarmc.petarlib.log;
 
 /**
  * Represents the different log levels supported by the logging system.

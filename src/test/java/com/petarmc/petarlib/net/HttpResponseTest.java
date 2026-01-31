@@ -1,4 +1,4 @@
-package com.petarmc.lib.net;
+package com.petarmc.petarlib.net;
 
 import org.junit.jupiter.api.Test;
 

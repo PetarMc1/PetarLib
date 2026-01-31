@@ -1,4 +1,4 @@
-package com.petarmc.lib.chat;
+package com.petarmc.petarlib.chat;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;

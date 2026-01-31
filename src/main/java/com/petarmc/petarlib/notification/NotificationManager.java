@@ -1,4 +1,4 @@
-package com.petarmc.lib.notification;
+package com.petarmc.petarlib.notification;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;

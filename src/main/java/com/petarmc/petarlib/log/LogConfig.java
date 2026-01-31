@@ -1,4 +1,4 @@
-package com.petarmc.lib.log;
+package com.petarmc.petarlib.log;
 
 /**
  * Configuration settings for the logging system.

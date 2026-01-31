@@ -1,4 +1,4 @@
-package com.petarmc.lib.chat;
+package com.petarmc.petarlib.chat;
 
 import java.util.regex.Matcher;
 

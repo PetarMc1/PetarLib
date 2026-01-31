@@ -1,4 +1,4 @@
-package com.petarmc.lib.chat;
+package com.petarmc.petarlib.chat;
 
 /**
  * Functional interface for handling chat pattern matches.

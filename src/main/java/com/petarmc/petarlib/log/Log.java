@@ -1,4 +1,4 @@
-package com.petarmc.lib.log;
+package com.petarmc.petarlib.log;
 
 /**
  * Utility class for obtaining logger instances.

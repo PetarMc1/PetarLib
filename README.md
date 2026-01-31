@@ -14,6 +14,20 @@ PetarLib includes several modules to simplify mod development:
 
 ## Usage
 
+### Versioning note
+
+As of v2.0.0-alpha.3 the library's package/coordinate structure was changed. Below are examples for both the newer (v2.0.0-alpha.3 and above) and the legacy (older) versions so you can pick the right dependency and imports.
+
+- New (v2.0.0-alpha.3+):
+  - Maven coordinate: groupId `com.petarmc.petarlib`, artifactId `petarlib-fabric`.
+  - Typical import (Java): `import com.petarmc.petarlib.chat.ChatPatternMatcher;`
+  - Mod entrypoint (fabric.mod.json): `com.petarmc.petarlib.Petarlib`
+
+- Legacy (before v2.0.0-alpha.3):
+  - Maven coordinate : groupId `com.petarmc`, artifactId `lib`.
+  - Typical import (Java): `import com.petarmc.lib.chat.ChatPatternMatcher;`
+  - Mod entrypoint (fabric.mod.json): `com.petarmc.lib.Petarlib`
+
 ### Maven
 Add the repo:
 ```xml
@@ -25,6 +39,17 @@ Add the repo:
 ```
 
 Add dependency:
+
+- For v2.0.0-alpha.3 and above (new structure):
+```xml
+<dependency>
+  <groupId>com.petarmc.petarlib</groupId>
+  <artifactId>petarlib-fabric</artifactId>
+  <version>2.x.x</version>
+</dependency>
+```
+
+- For older versions (legacy coordinates):
 ```xml
 <dependency>
   <groupId>com.petarmc</groupId>
@@ -32,6 +57,7 @@ Add dependency:
   <version>2.x.x</version>
 </dependency>
 ```
+
 
 ### Gradle
 #### Kotlin
@@ -43,8 +69,15 @@ maven {
 }
 ```
 Add dependency:
+
+- For v2.0.0-alpha.3 and above (new structure):
 ```kotlin
-implementation("com.petarmc:lib:2.x.x")
+implementation("com.petarmc.petarlib:petarlib-fabric:2.x.x")
+```
+
+- For older versions (legacy coordinates):
+```kotlin
+implementation("com.petarmc:lib:1.x.x")
 ```
 
 #### Groovy
@@ -57,8 +90,15 @@ maven {
 ```
 
 Add dependency:
+
+- For v2.0.0-alpha.3 and above (new structure):
 ```groovy
-implementation "com.petarmc:lib:2.x.x"
+implementation "com.petarmc.petarlib:petarlib-fabric:2.x.x"
+```
+
+- For older versions (legacy coordinates):
+```groovy
+implementation "com.petarmc:lib:1.x.x"
 ```
 
 ## Building
@@ -88,7 +128,7 @@ Unit tests are configured with JUnit 5 (Jupiter).
 
 - Run a single test class or method (example):
 ```bash
-.\gradlew.bat --tests com.petarmc.lib.chat.ChatPatternMatcherTest test
+.\gradlew.bat --tests com.petarmc.petarlib.chat.ChatPatternMatcherTest test
 ```
 
 Test reports are generated after a test run at:

@@ -1,7 +1,7 @@
-package com.petarmc.lib.task;
+package com.petarmc.petarlib.task;
 
-import com.petarmc.lib.log.PLog;
-import com.petarmc.lib.log.PLogger;
+import com.petarmc.petarlib.log.PLog;
+import com.petarmc.petarlib.log.PLogger;
 
 import java.util.concurrent.*;
 

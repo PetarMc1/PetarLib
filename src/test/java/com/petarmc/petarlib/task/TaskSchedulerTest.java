@@ -1,4 +1,4 @@
-package com.petarmc.lib.task;
+package com.petarmc.petarlib.task;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -48,4 +48,3 @@ public class TaskSchedulerTest {
         assertTrue(ran.get());
     }
 }
-
