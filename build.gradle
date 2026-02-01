@@ -93,10 +93,10 @@ publishing {
     }
 }
 
-tasks.javadoc {
+javadoc {
     destinationDir = file("$rootDir/javadoc")
     source = sourceSets.main.allJava.matching {
-        exclude 'com/petarmc/lib/Petarlib.java'
+        exclude 'com/petarmc/petarlib/Petarlib.java'
     }
     options.encoding = 'UTF-8'
     options.charSet = 'UTF-8'
@@ -104,10 +104,6 @@ tasks.javadoc {
     options.docTitle = 'PetarLib Documentation'
 }
 
-// Configure tests to use JUnit Platform
-tasks.withType(Test).configureEach {
-    useJUnitPlatform()
-}
 
 task buildAllVers {
     description = 'Build library for all versions defined in props directory and current gradle.properties'
@@ -132,7 +128,6 @@ task buildAllVers {
             }
         }
 
-        // --- Build default gradle.properties ---
         println("Building default gradle.properties (Fabric ${project.fabric_version})...")
         def defaultMinecraftVersion = project.minecraft_version
         def proc = "${gradleScript} build".execute()
@@ -143,12 +138,10 @@ task buildAllVers {
             def newName = makeFileName(defaultMinecraftVersion)
             def destFile = new File(outputDir, newName)
             jar.renameTo(destFile)
-            println("  → Copied to: build/libs-versioned/${newName}")
+            println("Copied to: build/libs-versioned/${newName}")
         }
 
-        // --- Build all props/*.properties versions ---
         fileTree(dir: 'props', include: '*.properties').each { propFile ->
-            println("\n=== Building with ${propFile.name} ===")
             Properties props = new Properties()
             propFile.withInputStream { stream -> props.load(stream) }
 
@@ -169,13 +162,12 @@ task buildAllVers {
                 def newName = makeFileName(mcVersion)
                 def destFile = new File(outputDir, newName)
                 jar.renameTo(destFile)
-                println("  → Copied to: build/libs-versioned/${newName}")
+                println("Copied to: build/libs-versioned/${newName}")
             }
         }
 
-        println("\n=== Build Summary ===")
         println("Successfully built the following versions:")
-        builtVersions.each { println("  ✓ $it") }
+        builtVersions.each { println("$it") }
         println("\nAll versioned artifacts are stored in: build/libs-versioned/")
     }
 }
