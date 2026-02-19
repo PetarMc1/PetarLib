@@ -34,7 +34,7 @@ Add the repo:
 <repository>
   <id>petarmc-releases</id>
   <name>Maven Repository</name>
-  <url>https://maven.petarmc.com/releases</url>
+  <url>https://repo.petarmc.com/repository/maven-public/</url>
 </repository>
 ```
 
@@ -64,8 +64,7 @@ Add dependency:
 Add the repo:
 ```kotlin
 maven {
-    name = "petarmcReleases"
-    url = uri("https://maven.petarmc.com/releases")
+    url = uri("https://repo.petarmc.com/repository/maven-public/")
 }
 ```
 Add dependency:
@@ -84,8 +83,7 @@ implementation("com.petarmc:lib:1.x.x")
 Add the repo:
 ```groovy
 maven {
-    name "petarmcReleases"
-    url "https://maven.petarmc.com/releases"
+    url "https://repo.petarmc.com/repository/maven-public/"
 }
 ```
 

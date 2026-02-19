@@ -71,16 +71,7 @@ publishing {
 
     repositories {
         maven {
-            name = 'petarReleases'
-            url = uri('https://maven.petarmc.com/releases/')
-            credentials {
-                username = project.findProperty('repoUsername') ?: ""
-                password = project.findProperty('repoPassword') ?: ""
-            }
-        }
-        maven {
-            name = 'petarPrivate'
-            url = uri('https://maven.petarmc.com/private/')
+            url = uri('https://repo.petarmc.com/repository/releases/')
             credentials {
                 username = project.findProperty('repoUsername') ?: ""
                 password = project.findProperty('repoPassword') ?: ""
