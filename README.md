@@ -110,7 +110,7 @@ This project uses Gradle. To build the library:
 To build for multiple Minecraft versions:
 
 ```bash
-./gradlew buildAllVers
+./gradlew buildAllVersions
 ```
 
 This will generate versioned JARs in `build/libs-versioned/`.
