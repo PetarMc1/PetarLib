@@ -16,13 +16,13 @@ public class NotificationManager {
     private static void showNotification(String msg) {
         Minecraft client = Minecraft.getInstance();
         assert client.player != null;
-        client.player.displayClientMessage(Component.nullToEmpty(msg), true);
+        client.player.sendSystemMessage(Component.nullToEmpty(msg));
     }
 
     private static void showNotificationInChat(String msg) {
         Minecraft client = Minecraft.getInstance();
         assert client.player != null;
-        client.player.displayClientMessage(Component.nullToEmpty(msg), false);
+        client.player.sendSystemMessage(Component.nullToEmpty(msg));
     }
 
     /**
